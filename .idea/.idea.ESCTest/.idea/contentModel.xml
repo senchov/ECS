@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\files\UnityProjects\ESCTest" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Lol.cs" t="Include" />
+        <e p="Plugins" t="Include">
+          <e p="Editor" t="Include">
+            <e p="JetBrains" t="Include">
+              <e p="Unity3DRider.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Graphs" t="Include">
+            <e p="ExtraInfoEnum.cs" t="Include" />
+            <e p="Graph.cs" t="Include" />
+            <e p="GraphEdge.cs" t="Include" />
+            <e p="GraphNode.cs" t="Include" />
+            <e p="NavGraphCreator.cs" t="Include" />
+            <e p="NavGraphNode.cs" t="Include" />
+          </e>
+          <e p="Rotator.cs" t="Include" />
+        </e>
+      </e>
+      <e p="ESCTest.sln" t="IncludeFlat" />
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+    <e p="C:\Users\user\.Rider2017.3\system\resharper-host\local\Transient\ReSharperHost\v11\SolutionCaches\_ESCTest.1541951125.00" t="ExcludeRecursive" />
+  </component>
+</project>
