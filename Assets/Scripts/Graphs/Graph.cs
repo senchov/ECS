@@ -5,8 +5,8 @@ namespace Graphs
 {
     public class Graph<N, E> where N : GraphNode where E : GraphEdge
     {
-        private List<N> Nodes;
-        private List<List<E>> Edges;
+        private List<N> Nodes = new List<N>();
+        private List<List<E>> Edges = new List<List<E>>();
 
         public void AddNode(N node)
         {

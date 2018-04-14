@@ -307,7 +307,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 100
+  orthographic size: 186.3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -796,9 +796,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c86378d57c9714cb9c69f6ace6c590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPoint: {fileID: 0}
-  MaxDistanceToNode: 10
+  StartPoint: {fileID: 1048186123}
+  MaxDistanceToNode: 15
   NavGraphPoint: {fileID: 706191594}
+  MaxNodeQuantity: 10
 --- !u!4 &1048186123
 Transform:
   m_ObjectHideFlags: 0
