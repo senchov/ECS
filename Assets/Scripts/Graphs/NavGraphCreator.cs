@@ -15,46 +15,39 @@ namespace Graphs
 
         private Vector2[] Directions = new[] {Vector2.right, Vector2.left, Vector2.down, Vector2.up};
         private List<GameObject> Points = new List<GameObject>();
+        private Dictionary<int, List<int>> EdgeInfos = new Dictionary<int, List<int>>();
+        private int PointIndex = 0;
 
         [ContextMenu("CreateGraph")]
         public void CreateGraph()
         {
-            Graph = new Graph<NavGraphNode, GraphEdge>();
-
-            /*for (int i = 0; i < Directions.Length; i++)
-            {
-                if (!IsFindObstacle(Directions[i]))
-                {
-                    Vector3 pos = transform.position + MaxDistanceToNode * Directions[i];
-                    GameObject point = Instantiate(NavGraphPoint, pos, Quaternion.identity);
-                    Points.Add(point);
-                    point.SetActive(true);
-                }
-            }*/
-
             Queue<NodeInfo> nodeQueue = new Queue<NodeInfo>();
             NodeInfo nodeInfo = new NodeInfo(0, StartPoint.position);
+            CreatePoint(StartPoint.position);
             nodeQueue.Enqueue(nodeInfo);
             int nodesQuantity = 0;
+            int nodesIteration = 0;
 
             while (nodeQueue.Count > 0 && nodesQuantity < MaxNodeQuantity)
             {
                 NodeInfo info = nodeQueue.Dequeue();
-                AddNodeToGraph(info.Index, info.Pos);
-                CreatePoint(info.Pos);
+                EdgeInfos.Add(nodesIteration, new List<int>());
                 for (int i = 0; i < Directions.Length; i++)
                 {
                     if (!IsFindObstacle(info.Pos, Directions[i]))
                     {
                         Vector2 pos = info.Pos + MaxDistanceToNode * Directions[i];
-                        NodeInfo newNodeInfo = new NodeInfo(++nodesQuantity,pos);
+                        NodeInfo newNodeInfo = new NodeInfo(++nodesQuantity, pos);
+                        EdgeInfos[nodesIteration].Add(nodesQuantity);
+                        CreatePoint(pos);
                         nodeQueue.Enqueue(newNodeInfo);
                     }
                 }
 
-                
-                if (nodesQuantity >= MaxDistanceToNode)
-                    Debug.Log("to many nodes");
+               // CreateEdgeRenderers(nodesIteration, EdgeInfos[nodesIteration]);
+                nodesIteration++;
+                if (nodesQuantity >= MaxNodeQuantity)
+                    Debug.LogError("to many nodes");
             }
         }
 
@@ -68,7 +61,22 @@ namespace Graphs
         {
             GameObject point = Instantiate(NavGraphPoint, pos, Quaternion.identity);
             Points.Add(point);
+            point.gameObject.name += PointIndex++;
             point.SetActive(true);
+        }
+
+        private void CreateEdgeRenderers(int fromNode, List<int> toNodes)
+        {
+            for (int i = 0; i < toNodes.Count; i++)
+            {
+                EdgeRenderer edgeRenderer = Points[fromNode].GetComponent<EdgeRenderer>();
+                if (!edgeRenderer)
+                {
+                    edgeRenderer = Points[fromNode].AddComponent<EdgeRenderer>();
+                    edgeRenderer.StartNode = Points[fromNode].transform.position;
+                }
+                edgeRenderer.TargetNodes.Add(Points[toNodes[i]].transform.position);
+            }
         }
 
         [ContextMenu("ClearPoints")]
@@ -84,7 +92,8 @@ namespace Graphs
 
         private bool IsFindObstacle(Vector3 position, Vector3 dir)
         {
-            return Physics.Raycast(position, dir, MaxDistanceToNode);
+            bool isFindObstacle = Physics.Raycast(position, dir, MaxDistanceToNode);
+            return isFindObstacle;
         }
 
         private struct NodeInfo

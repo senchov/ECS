@@ -6,6 +6,7 @@ namespace Graphs
     {
         public NavGraphNode(int index) : base(index)
         {
+            Index = index;
         }
 
         public NavGraphNode(int index,Vector2 pos, ExtraInfoEnum info) : base(index)
