@@ -8,46 +8,87 @@ namespace Graphs
     {
         [SerializeField] private Transform StartPoint;
         [SerializeField] private float MaxDistanceToNode;
+        [SerializeField] private float MaxEdgeLenght;
         [SerializeField] private GameObject NavGraphPoint;
         [SerializeField] private int MaxNodeQuantity = 100;
+        [SerializeField] private string NodeTag;
 
         private Graph<NavGraphNode, GraphEdge> Graph;
 
-        private Vector2[] Directions = new[] {Vector2.right, Vector2.left, Vector2.down, Vector2.up};
+        private Vector2[] PosibleDirectionsForNode = new[] {Vector2.right, Vector2.left, Vector2.down, Vector2.up};
+
+        private Vector2[] PosibleDirectionsForEdges = new[]
+        {
+            Vector2.right, Vector2.left, Vector2.down, Vector2.up,
+            Vector2.one, new Vector2(1, -1), new Vector2(-1, -1), new Vector2(-1, 1)
+        };
+
         private List<GameObject> Points = new List<GameObject>();
-        private Dictionary<int, List<int>> EdgeInfos = new Dictionary<int, List<int>>();
         private int PointIndex = 0;
 
         [ContextMenu("CreateGraph")]
         public void CreateGraph()
         {
+            CreateVisualGraph();
+            Graph = new Graph<NavGraphNode, GraphEdge>();
+            for (int i = 0; i < Points.Count; i++)
+            {
+                NodeInfoComponent nodeInfo = Points[i].GetComponent<NodeInfoComponent>();
+                Graph.AddNode(new NavGraphNode(nodeInfo.Index, Points[i].transform.position, nodeInfo.ExtraInfo));
+                for (int j = 0; j < nodeInfo.ConnectedNodes.Count; j++)
+                {
+                    float distanceBetweenNodes = Vector2.Distance(Points[nodeInfo.Index].transform.position,
+                        Points[nodeInfo.ConnectedNodes[j]].transform.position);
+                    Graph.AddEdge(new GraphEdge(nodeInfo.Index, nodeInfo.ConnectedNodes[j], distanceBetweenNodes));
+                }
+            }
+        }
+
+        [ContextMenu("CreateVisualGraph")]
+        public void CreateVisualGraph()
+        {
+            CreateGraphNodes();
+            CreateGraphEdges();
+        }
+
+        [ContextMenu("CreateGraphNodes")]
+        public void CreateGraphNodes()
+        {
             Queue<NodeInfo> nodeQueue = new Queue<NodeInfo>();
             NodeInfo nodeInfo = new NodeInfo(0, StartPoint.position);
             CreatePoint(StartPoint.position);
             nodeQueue.Enqueue(nodeInfo);
+            int nodeInfoQuantity = 0;
             int nodesQuantity = 0;
-            int nodesIteration = 0;
 
-            while (nodeQueue.Count > 0 && nodesQuantity < MaxNodeQuantity)
+            while (nodeQueue.Count > 0 && nodeInfoQuantity < MaxNodeQuantity)
             {
                 NodeInfo info = nodeQueue.Dequeue();
-                EdgeInfos.Add(nodesIteration, new List<int>());
-                for (int i = 0; i < Directions.Length; i++)
+                for (int i = 0; i < PosibleDirectionsForNode.Length; i++)
                 {
-                    if (!IsFindObstacle(info.Pos, Directions[i]))
+                    if (!IsFindObstacle(info.Pos, PosibleDirectionsForNode[i]))
                     {
-                        Vector2 pos = info.Pos + MaxDistanceToNode * Directions[i];
-                        NodeInfo newNodeInfo = new NodeInfo(++nodesQuantity, pos);
-                        EdgeInfos[nodesIteration].Add(nodesQuantity);
+                        Vector2 pos = info.Pos + MaxDistanceToNode * PosibleDirectionsForNode[i];
+                        NodeInfo newNodeInfo = new NodeInfo(++nodeInfoQuantity, pos);
                         CreatePoint(pos);
                         nodeQueue.Enqueue(newNodeInfo);
                     }
                 }
 
-               // CreateEdgeRenderers(nodesIteration, EdgeInfos[nodesIteration]);
-                nodesIteration++;
-                if (nodesQuantity >= MaxNodeQuantity)
+
+                nodesQuantity++;
+
+                if (nodeInfoQuantity >= MaxNodeQuantity)
                     Debug.LogError("to many nodes");
+            }
+        }
+
+        [ContextMenu("CreateGraphEdges")]
+        public void CreateGraphEdges()
+        {
+            for (int i = 0; i < Points.Count; i++)
+            {
+                CreateEdgesToNode(i);
             }
         }
 
@@ -61,22 +102,47 @@ namespace Graphs
         {
             GameObject point = Instantiate(NavGraphPoint, pos, Quaternion.identity);
             Points.Add(point);
+            NodeInfoComponent nodeInfoComponent = point.AddComponent<NodeInfoComponent>();
+            nodeInfoComponent.Index = PointIndex;
             point.gameObject.name += PointIndex++;
             point.SetActive(true);
         }
 
-        private void CreateEdgeRenderers(int fromNode, List<int> toNodes)
+        private void CreateEdgesToNode(int node)
         {
-            for (int i = 0; i < toNodes.Count; i++)
+            Vector3 nodePosition = Points[node].transform.position;
+            for (int i = 0; i < PosibleDirectionsForEdges.Length; i++)
             {
-                EdgeRenderer edgeRenderer = Points[fromNode].GetComponent<EdgeRenderer>();
-                if (!edgeRenderer)
+                int toNodeIndex = GetNodeIndex(nodePosition, PosibleDirectionsForEdges[i]);
+                if (toNodeIndex != -1)
                 {
-                    edgeRenderer = Points[fromNode].AddComponent<EdgeRenderer>();
-                    edgeRenderer.StartNode = Points[fromNode].transform.position;
+                    AddConectedNodes(node, toNodeIndex);
+                    AddPointToRenderer(GetEdgeRenderer(node), toNodeIndex);
                 }
-                edgeRenderer.TargetNodes.Add(Points[toNodes[i]].transform.position);
             }
+        }
+
+        private void AddPointToRenderer(EdgeRenderer edgeRenderer, int toNode)
+        {
+            edgeRenderer.TargetNodes.Add(Points[toNode].transform.position);
+        }
+
+        private void AddConectedNodes(int node, int conectedNode)
+        {
+            NodeInfoComponent nodeInfoComponent = Points[node].GetComponent<NodeInfoComponent>();
+            nodeInfoComponent.AddConnectedNode(conectedNode);
+        }
+
+        private EdgeRenderer GetEdgeRenderer(int fromNode)
+        {
+            EdgeRenderer edgeRenderer = Points[fromNode].GetComponent<EdgeRenderer>();
+            if (!edgeRenderer)
+            {
+                edgeRenderer = Points[fromNode].AddComponent<EdgeRenderer>();
+                edgeRenderer.StartNode = Points[fromNode].transform.position;
+            }
+
+            return edgeRenderer;
         }
 
         [ContextMenu("ClearPoints")]
@@ -92,8 +158,26 @@ namespace Graphs
 
         private bool IsFindObstacle(Vector3 position, Vector3 dir)
         {
-            bool isFindObstacle = Physics.Raycast(position, dir, MaxDistanceToNode);
-            return isFindObstacle;
+            return Physics.Raycast(position, dir, MaxDistanceToNode);
+        }
+
+        private bool IsNode(RaycastHit hit)
+        {
+            return hit.transform.gameObject.tag.Equals(NodeTag);
+        }
+
+        private int GetNodeIndex(Vector3 position, Vector3 dir)
+        {
+            int nodeIndex = -1;
+            RaycastHit hit;
+            if (Physics.Raycast(position, dir, out hit, MaxEdgeLenght) && IsNode(hit))
+            {
+                NodeInfoComponent nodeInfoComponentComponent =
+                    hit.transform.gameObject.GetComponent<NodeInfoComponent>();
+                nodeIndex = nodeInfoComponentComponent.Index;
+            }
+
+            return nodeIndex;
         }
 
         private struct NodeInfo

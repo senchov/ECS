@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Graphs
 {
@@ -7,19 +6,25 @@ namespace Graphs
     {
         private List<N> Nodes = new List<N>();
         private List<List<E>> Edges = new List<List<E>>();
+        private int NextNodeIndex;
 
         public void AddNode(N node)
         {
             Nodes.Add(node);
+            NextNodeIndex++;
         }
 
         public void AddEdge(E edge)
         {
-            Edges.Last().Add(edge);
+            if (Edges[NextNodeIndex] == null)
+                Edges[NextNodeIndex] = new List<E>();
+            Edges[NextNodeIndex].Add(edge);
         }
 
-        public void AddEdge(E edge,int nodeIndex)
+        public void AddEdge(E edge, int nodeIndex)
         {
+            if (Edges[nodeIndex] == null)
+                Edges[nodeIndex] = new List<E>();
             Edges[nodeIndex].Add(edge);
         }
 
@@ -28,10 +33,10 @@ namespace Graphs
             return Nodes[index];
         }
 
-     /*   public E GetEdge(int index)
-        {
-            return Edges[index];
-        }*/
+        /*   public E GetEdge(int index)
+           {
+               return Edges[index];
+           }*/
 
         public int GetNextFreeNodeIndex()
         {

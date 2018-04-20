@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18095538, g: 0.22651225, b: 0.30725345, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -128,7 +128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &170076734
 Light:
   m_ObjectHideFlags: 0
@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 282840814}
   - component: {fileID: 282840813}
   - component: {fileID: 282840811}
+  - component: {fileID: 282840812}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -287,6 +288,23 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282840810}
   m_Enabled: 1
+--- !u!114 &282840812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282840810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3301a4de0312e90499bc1339a29370c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  First: lol
+  Second: lol
+  Iterations: 0
+  IsCheckWithEquals: 0
+  IsCheckWithHashCode: 0
+  IsCheckWithUsual: 0
 --- !u!20 &282840813
 Camera:
   m_ObjectHideFlags: 0
@@ -518,7 +536,7 @@ GameObject:
   - component: {fileID: 706191595}
   m_Layer: 0
   m_Name: NavGraphNode
-  m_TagString: Untagged
+  m_TagString: node
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -798,8 +816,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartPoint: {fileID: 1048186123}
   MaxDistanceToNode: 15
+  MaxEdgeLenght: 22
   NavGraphPoint: {fileID: 706191594}
-  MaxNodeQuantity: 10
+  MaxNodeQuantity: 250
+  NodeTag: node
 --- !u!4 &1048186123
 Transform:
   m_ObjectHideFlags: 0
