@@ -5,26 +5,25 @@ namespace Graphs
     public class Graph<N, E> where N : GraphNode where E : GraphEdge
     {
         private List<N> Nodes = new List<N>();
-        private List<List<E>> Edges = new List<List<E>>();
+        private Dictionary<int, List<E>> Edges = new Dictionary<int, List<E>>();
         private int NextNodeIndex;
 
         public void AddNode(N node)
         {
             Nodes.Add(node);
-            NextNodeIndex++;
+            Edges.Add(NextNodeIndex++, new List<E>());
         }
 
         public void AddEdge(E edge)
         {
-            if (Edges[NextNodeIndex] == null)
-                Edges[NextNodeIndex] = new List<E>();
-            Edges[NextNodeIndex].Add(edge);
+            AddEdge(edge, NextNodeIndex);
         }
 
         public void AddEdge(E edge, int nodeIndex)
         {
-            if (Edges[nodeIndex] == null)
-                Edges[nodeIndex] = new List<E>();
+            if (!Edges.ContainsKey(nodeIndex))
+                Edges.Add(nodeIndex, new List<E>());
+
             Edges[nodeIndex].Add(edge);
         }
 
@@ -33,12 +32,12 @@ namespace Graphs
             return Nodes[index];
         }
 
-        /*   public E GetEdge(int index)
-           {
-               return Edges[index];
-           }*/
-
         public int GetNextFreeNodeIndex()
+        {
+            return Nodes.Count;
+        }
+
+        public int GetNodesQuantity()
         {
             return Nodes.Count;
         }
