@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+using SimpleJson;
+using SimpleJSON;
 
 namespace Graphs
 {
@@ -14,11 +18,6 @@ namespace Graphs
             Edges.Add(NextNodeIndex++, new List<E>());
         }
 
-        public void AddEdge(E edge)
-        {
-            AddEdge(edge, NextNodeIndex);
-        }
-
         public void AddEdge(E edge, int nodeIndex)
         {
             if (!Edges.ContainsKey(nodeIndex))
@@ -32,6 +31,14 @@ namespace Graphs
             return Nodes[index];
         }
 
+        public List<E> GetNodeEdges(int nodeIndex)
+        {
+            if (Edges.ContainsKey(nodeIndex))
+                return Edges[nodeIndex];
+
+            return null;
+        }
+
         public int GetNextFreeNodeIndex()
         {
             return Nodes.Count;
@@ -40,6 +47,32 @@ namespace Graphs
         public int GetNodesQuantity()
         {
             return Nodes.Count;
+        }
+
+        public void SaveToFile(string path)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            //string json = JsonUtility.ToJson(Nodes[0]);
+            foreach (var node in Nodes)
+            {
+                stringBuilder.Append(JsonUtility.ToJson(node));
+            }
+
+            foreach (var edgeList in Edges)
+            {
+                foreach (var edge in edgeList.Value)
+                {
+                    stringBuilder.Append(JsonUtility.ToJson(edge));
+                }
+            }
+            JSONClass lol = new JSONClass();
+            lol ["ll"].AsInt = 15;
+            lol["wow"] = "wowwo";
+            string savePath = Application.streamingAssetsPath + "/lol.json";
+            lol.SaveToFile(savePath);
+            JSONNode someNode = JSONNode.LoadFromFile(savePath);
+           
+            Debug.LogError(someNode);
         }
     }
 }

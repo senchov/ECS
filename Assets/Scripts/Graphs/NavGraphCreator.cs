@@ -39,9 +39,11 @@ namespace Graphs
                 {
                     float distanceBetweenNodes = Vector2.Distance(Points[nodeInfo.Index].transform.position,
                         Points[nodeInfo.ConnectedNodes[j]].transform.position);
-                    Graph.AddEdge(new GraphEdge(nodeInfo.Index, nodeInfo.ConnectedNodes[j], distanceBetweenNodes));
+                    Graph.AddEdge(new GraphEdge(nodeInfo.Index, nodeInfo.ConnectedNodes[j], distanceBetweenNodes),
+                        nodeInfo.Index);
                 }
             }
+            Graph.SaveToFile("");
         }
 
         [ContextMenu("CreateVisualGraph")]
@@ -90,12 +92,6 @@ namespace Graphs
             {
                 CreateEdgesToNode(i);
             }
-        }
-
-        private void AddNodeToGraph(int index, Vector2 pos)
-        {
-            NavGraphNode node = new NavGraphNode(index, pos, ExtraInfoEnum.None);
-            Graph.AddNode(node);
         }
 
         private void CreatePoint(Vector3 pos)
