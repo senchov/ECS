@@ -51,28 +51,43 @@ namespace Graphs
 
         public void SaveToFile(string path)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            //string json = JsonUtility.ToJson(Nodes[0]);
-            foreach (var node in Nodes)
+            JSONClass graphJson = new JSONClass();
+
+            graphJson["nodes"] = new JSONArray();
+            foreach (N node in Nodes)
             {
-                stringBuilder.Append(JsonUtility.ToJson(node));
+                graphJson["nodes"].Add(JsonUtility.ToJson(node));
             }
 
+            graphJson["edges"] = new JSONArray();
             foreach (var edgeList in Edges)
             {
-                foreach (var edge in edgeList.Value)
+                foreach (GraphEdge edge in edgeList.Value)
                 {
-                    stringBuilder.Append(JsonUtility.ToJson(edge));
+                    graphJson["edges"].Add(JsonUtility.ToJson(edge));
                 }
             }
-            JSONClass lol = new JSONClass();
-            lol ["ll"].AsInt = 15;
-            lol["wow"] = "wowwo";
-            string savePath = Application.streamingAssetsPath + "/lol.json";
-            lol.SaveToFile(savePath);
-            JSONNode someNode = JSONNode.LoadFromFile(savePath);
-           
-            Debug.LogError(someNode);
+
+            graphJson.SaveToFile(path);
+        }
+
+        public static Graph<N, E> LoadGraphFromFile(string path)
+        {
+            Graph<N, E> loadedGraph = new Graph<N, E>();
+            JSONClass loadedJson = JSONNode.LoadFromFile(path).AsObject;
+            foreach (JSONNode jsonNode in loadedJson["nodes"].Children)
+            {
+                N node = JsonUtility.FromJson<N>(jsonNode);
+                loadedGraph.AddNode(node);
+            }
+
+            foreach (JSONNode jsonNode in loadedJson["edges"].Children)
+            {
+                E edge = JsonUtility.FromJson<E>(jsonNode);
+                loadedGraph.AddEdge(edge, edge.From);
+            }
+
+            return loadedGraph;
         }
     }
 }
