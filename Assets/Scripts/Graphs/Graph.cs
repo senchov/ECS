@@ -8,8 +8,8 @@ namespace Graphs
 {
     public class Graph<N, E> where N : GraphNode where E : GraphEdge
     {
-        private List<N> Nodes = new List<N>();
-        private Dictionary<int, List<E>> Edges = new Dictionary<int, List<E>>();
+        public List<N> Nodes = new List<N>();
+        public Dictionary<int, List<E>> Edges = new Dictionary<int, List<E>>();
         private int NextNodeIndex;
 
         public void AddNode(N node)

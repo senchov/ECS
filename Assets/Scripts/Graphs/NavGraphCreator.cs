@@ -12,6 +12,7 @@ namespace Graphs
         [SerializeField] private GameObject NavGraphPoint;
         [SerializeField] private int MaxNodeQuantity = 100;
         [SerializeField] private string NodeTag;
+        [SerializeField] private string PathToSaveGraphFile;
 
         private Graph<NavGraphNode, GraphEdge> Graph;
 
@@ -43,7 +44,12 @@ namespace Graphs
                         nodeInfo.Index);
                 }
             }
-            Graph.SaveToFile("");
+        }
+
+        [ContextMenu("SaveGraph")]
+        public void SaveGraph()
+        {
+            Graph.SaveToFile(Application.streamingAssetsPath + PathToSaveGraphFile);
         }
 
         [ContextMenu("CreateVisualGraph")]

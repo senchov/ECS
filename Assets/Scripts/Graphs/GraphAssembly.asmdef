@@ -1,11 +1,9 @@
 {
-    "name": "Tests",
+    "name": "GraphAssemly",
     "references": [
-        "GraphAssemly"
+        "JSON"
     ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ],
+    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false

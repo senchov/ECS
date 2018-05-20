@@ -62,7 +62,7 @@ namespace GraphsTests
             File.Delete(path);
         }
 
-        private static void CheckNodes(Graph<NavGraphNode, GraphEdge> graph, Graph<NavGraphNode, GraphEdge> loadedGraph,
+        private void CheckNodes(Graph<NavGraphNode, GraphEdge> graph, Graph<NavGraphNode, GraphEdge> loadedGraph,
             int i)
         {
             NavGraphNode expectedNode = graph.GetNode(i);
@@ -71,25 +71,33 @@ namespace GraphsTests
             Assert.AreEqual(expectedNode.ExtraInfo, actualNode.ExtraInfo);
         }
 
-        private static void CheckEdges(Graph<NavGraphNode, GraphEdge> graph, Graph<NavGraphNode, GraphEdge> loadedGraph,
+        private void CheckEdges(Graph<NavGraphNode, GraphEdge> graph, Graph<NavGraphNode, GraphEdge> loadedGraph,
             int i)
         {
             List<GraphEdge> expectEdges = graph.GetNodeEdges(i);
             List<GraphEdge> actualEdges = loadedGraph.GetNodeEdges(i);
             Assert.AreEqual(expectEdges.Count, actualEdges.Count);
-            IEnumerator<GraphEdge> expectEdgesEnumerator = expectEdges.GetEnumerator();
-            IEnumerator<GraphEdge> actualEdgesEnumerator = actualEdges.GetEnumerator();
-            while (expectEdgesEnumerator.MoveNext() && actualEdgesEnumerator.MoveNext())
+
+            CompareEachEdgeInLists(expectEdges, actualEdges);
+        }
+
+        private void CompareEachEdgeInLists(List<GraphEdge> expectEdges, List<GraphEdge> actualEdges)
+        {
+            using (IEnumerator<GraphEdge> expectEdgesEnumerator = expectEdges.GetEnumerator(),
+                actualEdgesEnumerator = actualEdges.GetEnumerator())
             {
-                GraphEdge expectedEdge = expectEdgesEnumerator.Current;
-                GraphEdge actualEdge = actualEdgesEnumerator.Current;
-                Assert.AreEqual(expectedEdge.From, actualEdge.From);
-                Assert.AreEqual(expectedEdge.To, actualEdge.To);
-                Assert.AreEqual(expectedEdge.Cost, actualEdge.Cost);
+                while (expectEdgesEnumerator.MoveNext() && actualEdgesEnumerator.MoveNext())
+                {
+                    GraphEdge expectedEdge = expectEdgesEnumerator.Current;
+                    GraphEdge actualEdge = actualEdgesEnumerator.Current;
+                    Assert.AreEqual(expectedEdge.From, actualEdge.From);
+                    Assert.AreEqual(expectedEdge.To, actualEdge.To);
+                    Assert.AreEqual(expectedEdge.Cost, actualEdge.Cost);
+                }
             }
         }
 
-        private static void AddNodesAndEdgesToGraph(Graph<NavGraphNode, GraphEdge> graph)
+        private void AddNodesAndEdgesToGraph(Graph<NavGraphNode, GraphEdge> graph)
         {
             graph.AddNode(new NavGraphNode(0, new Vector2(80, 58.8f), ExtraInfoEnum.None));
             graph.AddNode(new NavGraphNode(0, new Vector2(95, 58.8f), ExtraInfoEnum.None));
