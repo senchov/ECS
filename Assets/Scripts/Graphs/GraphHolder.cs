@@ -8,8 +8,8 @@ namespace Graphs
     {
         [SerializeField] private string GraphFileName;
         [SerializeField] private GameObject NavGraphNodeOnScene;
-        
-        Graph<NavGraphNode,GraphEdge> Graph = new Graph<NavGraphNode, GraphEdge>();
+
+        Graph<NavGraphNode, GraphEdge> Graph = new Graph<NavGraphNode, GraphEdge>();
         private List<GameObject> NavGraphNodeOnSceneList = new List<GameObject>();
 
         [ContextMenu("RenderGraph")]
@@ -23,11 +23,12 @@ namespace Graphs
             Graph = Graph<NavGraphNode, GraphEdge>.LoadGraphFromFile(GetPath());
             foreach (NavGraphNode graphNode in Graph.Nodes)
             {
-                GameObject point = Instantiate(NavGraphNodeOnScene,graphNode.Position,Quaternion.identity) ;
+                GameObject point = Instantiate(NavGraphNodeOnScene, graphNode.Position, Quaternion.identity);
                 point.transform.SetParent(this.transform);
                 point.SetActive(true);
                 NavGraphNodeOnSceneList.Add(point);
             }
+
             print(NavGraphNodeOnSceneList.Count);
         }
 

@@ -39,6 +39,28 @@ namespace Graphs
             return null;
         }
 
+        public List<int> GetConnectedNodesIds(int nodeindex)
+        {
+            List<int> connectedNodesIds = new List<int>();
+            foreach (E edge in GetNodeEdges(nodeindex))
+            {
+                connectedNodesIds.Add(edge.To);
+            }
+
+            return connectedNodesIds;
+        }
+        
+        public List<N> GetConnectedNodes(int nodeindex)
+        {
+            List<N> connectedNodes = new List<N>();
+            foreach (E edge in GetNodeEdges(nodeindex))
+            {
+                connectedNodes.Add(GetNode(edge.To));
+            }
+
+            return connectedNodes;
+        }
+
         public int GetNextFreeNodeIndex()
         {
             return Nodes.Count;

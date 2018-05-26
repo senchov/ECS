@@ -6,7 +6,7 @@
         public int To;
         public float Cost;
 
-        public GraphEdge(int from, int to, float cost)
+        public GraphEdge(int from, int to, float cost = 0)
         {
             From = from;
             To = to;
