@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using SimpleJson;
 using SimpleJSON;
 
 namespace Graphs
@@ -49,7 +48,7 @@ namespace Graphs
 
             return connectedNodesIds;
         }
-        
+
         public List<N> GetConnectedNodes(int nodeindex)
         {
             List<N> connectedNodes = new List<N>();

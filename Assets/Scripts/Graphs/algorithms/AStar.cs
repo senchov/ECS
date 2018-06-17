@@ -75,7 +75,7 @@ namespace Graphs
         private int[] CalculatePath(NavGraphNode node)
         {
             List<int> path = new List<int>();
-            int counter = 0;
+            
             while (node != null)
             {
                 int nodeIndex = node.Index;
