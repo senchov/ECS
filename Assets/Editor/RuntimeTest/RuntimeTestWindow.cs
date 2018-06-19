@@ -1,77 +1,116 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using SimpleJSON;
+
 
 namespace RuntimeTests
 {
     public class RuntimeTestWindow : EditorWindow
     {
-        bool toggle = false;
-        private Queue<TypeAndMethod> TestQueue = new Queue<TypeAndMethod>();
+        private Queue<TypeAndMethod> ExistingTests = new Queue<TypeAndMethod>();
+        private Dictionary<TypeAndMethod, bool> ToggleByTest;
+        private TestProvider TestProvider;
 
-        
         [MenuItem("Window/RuntimeTest")]
         public static void ShowWindwow()
         {
             GetWindow<RuntimeTestWindow>("Runtime test");
         }
-       
+
+        private void OnEnable()
+        {
+            TestProvider = new TestProvider();
+            SubscribeToPlaymodeStateChange();
+            FillTestQueue();
+        }
+
+        private void SubscribeToPlaymodeStateChange()
+        {
+            EditorApplication.playModeStateChanged -= EditorApplicationOnPlayModeStateChanged;
+            EditorApplication.playModeStateChanged += EditorApplicationOnPlayModeStateChanged;
+        }
+
+        private void FillTestQueue()
+        {
+            ExistingTests = TestProvider.GetAllExistTestQueue();
+            ToggleByTest = new Dictionary<TypeAndMethod, bool>();
+            foreach (TypeAndMethod typeAndMethod in ExistingTests)
+            {
+                ToggleByTest.Add(typeAndMethod, false);
+            }
+        }
+
+        private void EditorApplicationOnPlayModeStateChanged(PlayModeStateChange playModeStateChange)
+        {
+            TestProvider provider = new TestProvider();
+            if (HasTestsAndPlaymodeRunning(playModeStateChange))
+            {
+                GameObject testGameObject = new GameObject("testGameObject");
+                testGameObject.AddComponent<RuntimeTestManager>();
+            }
+        }
+
+        private bool HasTestsAndPlaymodeRunning(PlayModeStateChange playModeStateChange)
+        {
+            TestProvider provider = new TestProvider();
+            return provider.AtleastOneTestAvailable() && playModeStateChange == PlayModeStateChange.EnteredPlayMode;
+        }
+
         private void OnGUI()
         {
             GUILayout.Label("Tests", EditorStyles.boldLabel);
-            toggle = GUILayout.Toggle(toggle, "toggle");
+
+            foreach (TypeAndMethod typeAndMethod in ExistingTests)
+            {
+                ToggleByTest[typeAndMethod] = GUILayout.Toggle(ToggleByTest[typeAndMethod],
+                    typeAndMethod.Type.Name + "  " + typeAndMethod.Method);
+            }
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("SelectAll"))
+            {
+                SelectAllTest(true);
+            }
+
+            if (GUILayout.Button("UnSelectAll"))
+            {
+                SelectAllTest(false);
+            }
+
+            GUILayout.EndHorizontal();
+
             if (GUILayout.Button("Start tests"))
             {
-                FillTestQueue();
                 StartTest();
             }
         }
 
+        private void SelectAllTest(bool value)
+        {
+            List<TypeAndMethod> keys = ToggleByTest.Keys.ToList();
+            ToggleByTest = new Dictionary<TypeAndMethod, bool>();
+            foreach (TypeAndMethod toggleByTest in keys)
+            {
+                ToggleByTest.Add(toggleByTest, value);
+            }
+        }
+
+        private void NewMethod(bool value, KeyValuePair<TypeAndMethod, bool> toggleByTest)
+        {
+            ToggleByTest[toggleByTest.Key] = value;
+        }
+
         private void StartTest()
         {
-           // PlayStopRuntime();
-            RuntimeTestDataHolder.TestQueue = TestQueue;
-            GameObject testGameObject = new GameObject("tesGameObject");
-            RuntimeTestManager testManager = testGameObject.AddComponent<RuntimeTestManager>();
-        }
-
-        private void EditorSceneManagerOnSceneLoaded(Scene arg0, LoadSceneMode loadSceneMode)
-        {
-            Debug.LogError("loaded");
-            
-            
-        }
-
-        private void OnOnTestOver()
-        {
+            TestProvider.SaveToFile(ToggleByTest);
             PlayStopRuntime();
         }
 
         private void PlayStopRuntime()
         {
             EditorApplication.ExecuteMenuItem("Edit/Play");
-        }
-
-        private void FillTestQueue()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-
-            foreach (Type type in assembly.GetTypes())
-            {
-                foreach (MethodInfo method in type.GetMethods())
-                {
-                    if (method.GetCustomAttributes().OfType<RuntimeTestAtribute>().Any())
-                    {
-                        TestQueue.Enqueue(new TypeAndMethod(type, method.Name));
-                    }
-                }
-            }
         }
     }
 }

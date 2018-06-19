@@ -8,7 +8,7 @@ public class RuntimeTest : MonoBehaviour
     public IEnumerator Test()
     {
         Debug.LogError("chick0");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         Debug.LogError("chick");
     }
 

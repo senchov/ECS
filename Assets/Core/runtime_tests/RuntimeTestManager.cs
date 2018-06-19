@@ -14,23 +14,22 @@ namespace RuntimeTests
     public class RuntimeTestManager : MonoBehaviour
     {
         private Queue<TypeAndMethod> TestQueue = new Queue<TypeAndMethod>();
+        private TestProvider TestProvider = new TestProvider();
 
         private void Start()
         {
+            TestQueue = TestProvider.GetTestQueue();
             StartTests();
         }
 
         [ContextMenu("StartTests")]
         public void StartTests()
         {
-            Debug.Log(TestQueue.Count);
             StartCoroutine(TestEnumerator());
         }
 
         private IEnumerator TestEnumerator()
         {
-            yield return new WaitForSeconds(2.0f);
-
             if (TestQueue.Count > 0)
             {
                 TypeAndMethod currentTest = TestQueue.Dequeue();
@@ -40,6 +39,7 @@ namespace RuntimeTests
             else
             {
                 EditorApplication.ExecuteMenuItem("Edit/Play");
+                Destroy(gameObject);
                 yield break;
             }
 
@@ -49,11 +49,6 @@ namespace RuntimeTests
         private Component GetCurrentComponent(TypeAndMethod currentTest)
         {
             return gameObject.GetComponent(currentTest.Type) ?? gameObject.AddComponent(currentTest.Type);
-        }
-
-        public void SetQueueToTest(Queue<TypeAndMethod> testQueue)
-        {
-            Queue<TypeAndMethod> TestQueue = testQueue;
         }
     }
 
@@ -66,7 +61,6 @@ namespace RuntimeTests
         {
             Type = type;
             Method = method;
-            Debug.LogError(type.Name + " " + method);
         }
     }
 }
