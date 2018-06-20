@@ -78,6 +78,15 @@ namespace RuntimeTests
             SelectButtonsRender();
             AttributeTextRender();
         }
+        
+        private void StartButtonRender()
+        {
+            if (GUILayout.Button("Start tests"))
+            {
+                TestProvider.SaveToFile(ToggleByTest);
+                PlayStopRuntime();
+            }
+        }
 
         private void HeaderLabelRender()
         {
@@ -120,16 +129,7 @@ namespace RuntimeTests
             {
                 SelectAllTest(false);
             }
-
             GUILayout.EndHorizontal();
-        }
-
-        private void StartButtonRender()
-        {
-            if (GUILayout.Button("Start tests"))
-            {
-                StartTest();
-            }
         }
 
         private void SelectAllTest(bool value)
@@ -140,12 +140,6 @@ namespace RuntimeTests
             {
                 ToggleByTest.Add(toggleByTest, value);
             }
-        }
-
-        private void StartTest()
-        {
-            TestProvider.SaveToFile(ToggleByTest);
-            PlayStopRuntime();
         }
 
         private void PlayStopRuntime()
