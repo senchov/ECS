@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace RuntimeTests
         private Queue<TypeAndMethod> ExistingTests = new Queue<TypeAndMethod>();
         private Dictionary<TypeAndMethod, bool> ToggleByTest;
         private TestProvider TestProvider;
+        private Vector2 ScrollPos;
+        private string TestAttributeValue = String.Empty;
 
         [MenuItem("Window/RuntimeTest")]
         public static void ShowWindwow()
@@ -21,9 +24,20 @@ namespace RuntimeTests
 
         private void OnEnable()
         {
-            TestProvider = new TestProvider();
             SubscribeToPlaymodeStateChange();
+            TestProvider = new TestProvider();
             FillTestQueue();
+            FillToggleByTest();
+        }
+
+        private void FillTestQueue()
+        {
+            if (TestAttributeValue == String.Empty)
+                ExistingTests = TestProvider.GetAllExistTestQueue();
+            else
+            {
+                ExistingTests = TestProvider.GetTestWithAttributeValue(TestAttributeValue);
+            }
         }
 
         private void SubscribeToPlaymodeStateChange()
@@ -32,9 +46,8 @@ namespace RuntimeTests
             EditorApplication.playModeStateChanged += EditorApplicationOnPlayModeStateChanged;
         }
 
-        private void FillTestQueue()
+        private void FillToggleByTest()
         {
-            ExistingTests = TestProvider.GetAllExistTestQueue();
             ToggleByTest = new Dictionary<TypeAndMethod, bool>();
             foreach (TypeAndMethod typeAndMethod in ExistingTests)
             {
@@ -44,7 +57,6 @@ namespace RuntimeTests
 
         private void EditorApplicationOnPlayModeStateChanged(PlayModeStateChange playModeStateChange)
         {
-            TestProvider provider = new TestProvider();
             if (HasTestsAndPlaymodeRunning(playModeStateChange))
             {
                 GameObject testGameObject = new GameObject("testGameObject");
@@ -60,27 +72,60 @@ namespace RuntimeTests
 
         private void OnGUI()
         {
-            GUILayout.Label("Tests", EditorStyles.boldLabel);
+            StartButtonRender();
+            HeaderLabelRender();
+            TestTogglesRender();
+            SelectButtonsRender();
+            AttributeTextRender();
+        }
 
+        private void HeaderLabelRender()
+        {
+            GUILayout.Label("Tests", EditorStyles.boldLabel);
+        }
+
+        private void AttributeTextRender()
+        {
+            TestAttributeValue = EditorGUILayout.TextField(TestAttributeValue);
+            if (GUILayout.Button("Update"))
+            {
+                FillTestQueue();
+                FillToggleByTest();
+            }
+        }
+
+        private void TestTogglesRender()
+        {
+            EditorGUILayout.BeginVertical();
+            ScrollPos = EditorGUILayout.BeginScrollView(ScrollPos);
             foreach (TypeAndMethod typeAndMethod in ExistingTests)
             {
                 ToggleByTest[typeAndMethod] = GUILayout.Toggle(ToggleByTest[typeAndMethod],
                     typeAndMethod.Type.Name + "  " + typeAndMethod.Method);
             }
 
+            EditorGUILayout.EndScrollView();
+            EditorGUILayout.EndVertical();
+        }
+
+        private void SelectButtonsRender()
+        {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("SelectAll"))
             {
                 SelectAllTest(true);
             }
 
-            if (GUILayout.Button("UnSelectAll"))
+            if (GUILayout.Button("UnselectAll"))
             {
                 SelectAllTest(false);
             }
 
             GUILayout.EndHorizontal();
+        }
 
+        private void StartButtonRender()
+        {
             if (GUILayout.Button("Start tests"))
             {
                 StartTest();
@@ -95,11 +140,6 @@ namespace RuntimeTests
             {
                 ToggleByTest.Add(toggleByTest, value);
             }
-        }
-
-        private void NewMethod(bool value, KeyValuePair<TypeAndMethod, bool> toggleByTest)
-        {
-            ToggleByTest[toggleByTest.Key] = value;
         }
 
         private void StartTest()

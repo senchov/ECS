@@ -10,9 +10,9 @@ using Const = RuntimeTests.RuntimeTestConstants;
 
 namespace RuntimeTests
 {
-    public class TestProvider 
+    public class TestProvider
     {
-        public void SaveToFile(Dictionary<TypeAndMethod,bool> toggleByTestDict)
+        public void SaveToFile(Dictionary<TypeAndMethod, bool> toggleByTestDict)
         {
             JSONClass testJson = new JSONClass();
             testJson[Const.TypesAndMethods] = new JSONArray();
@@ -32,7 +32,7 @@ namespace RuntimeTests
             string path = GetFilePath();
             testJson.SaveToFile(path);
         }
-    
+
         public Queue<TypeAndMethod> GetAllExistTestQueue()
         {
             Queue<TypeAndMethod> testQueue = new Queue<TypeAndMethod>();
@@ -51,7 +51,27 @@ namespace RuntimeTests
 
             return testQueue;
         }
-        
+
+        public Queue<TypeAndMethod> GetTestWithAttributeValue(string attributeValue)
+        {
+            Queue<TypeAndMethod> testQueue = new Queue<TypeAndMethod>();
+            Assembly assembly = Assembly.GetExecutingAssembly();
+
+            foreach (Type type in assembly.GetTypes())
+            {
+                foreach (MethodInfo method in type.GetMethods())
+                {
+                    foreach (RuntimeTestAtribute attribute in method.GetCustomAttributes(typeof(RuntimeTestAtribute)))
+                    {
+                        if (attribute.Header == attributeValue)
+                            testQueue.Enqueue(new TypeAndMethod(type, method.Name));
+                    }
+                }
+            }
+
+            return testQueue;
+        }
+
         public Queue<TypeAndMethod> GetTestQueue()
         {
             Queue<TypeAndMethod> testQueue = new Queue<TypeAndMethod>();
@@ -64,10 +84,12 @@ namespace RuntimeTests
                 {
                     Type type = Type.GetType(test[Const.Type].Value);
                     string method = test[Const.Method].Value;
-                    testQueue.Enqueue(new TypeAndMethod(type,method));
+                    testQueue.Enqueue(new TypeAndMethod(type, method));
                 }
+
                 File.Delete(path);
             }
+
             return testQueue;
         }
 
