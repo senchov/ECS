@@ -32,6 +32,11 @@ namespace Graphs
             print(NavGraphNodeOnSceneList.Count);
         }
 
+        public Vector3 GetNodePosition(int nodeIndex)
+        {
+            return Graph.GetNode(nodeIndex).Position;
+        }
+
         private string GetPath()
         {
             return Application.streamingAssetsPath + "/" + GraphFileName;
