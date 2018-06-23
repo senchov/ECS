@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using SimpleJSON;
+using UnityEditor;
 using UnityEngine;
 using Const = RuntimeTests.RuntimeTestConstants;
+using Object = UnityEngine.Object;
 
 namespace RuntimeTests
 {
@@ -33,45 +35,41 @@ namespace RuntimeTests
             testJson.SaveToFile(path);
         }
 
-        public Queue<TypeAndMethod> GetAllExistTestQueue()
+        public Queue<TypeAndMethod> GetTests(Object folder)
         {
             Queue<TypeAndMethod> testQueue = new Queue<TypeAndMethod>();
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            string folderPath = AssetDatabase.GetAssetPath(folder);
 
-            foreach (Type type in assembly.GetTypes())
+            foreach (string script in GetScriptsNames(folderPath))
             {
-                foreach (MethodInfo method in type.GetMethods())
+                Type type = Type.GetType(script);
+                if (type != null)
                 {
-                    if (method.GetCustomAttributes().OfType<RuntimeTestAtribute>().Any())
-                    {
+                    FillQueue(type, testQueue);
+                }
+            }
+
+            return testQueue;
+        }
+
+        private IEnumerable<string> GetScriptsNames(string folderPath)
+        {
+            return Directory.GetFiles(folderPath).Where(s => s.Contains(".cs") && !s.Contains(".meta"))
+                .Select(s => s.Replace(".cs", String.Empty).Replace(folderPath + "\\", String.Empty));
+        }
+
+        private void FillQueue(Type type, Queue<TypeAndMethod> testQueue)
+        {
+            foreach (MethodInfo method in type.GetMethods())
+            {
+                foreach (var attribute in method.GetCustomAttributes(false))
+                {
+                    if (attribute is RuntimeTestAtribute)
                         testQueue.Enqueue(new TypeAndMethod(type, method.Name));
-                    }
                 }
             }
-
-            return testQueue;
         }
-
-        public Queue<TypeAndMethod> GetTestWithAttributeValue(string attributeValue)
-        {
-            Queue<TypeAndMethod> testQueue = new Queue<TypeAndMethod>();
-            Assembly assembly = Assembly.GetExecutingAssembly();
-
-            foreach (Type type in assembly.GetTypes())
-            {
-                foreach (MethodInfo method in type.GetMethods())
-                {
-                    foreach (RuntimeTestAtribute attribute in method.GetCustomAttributes(typeof(RuntimeTestAtribute)))
-                    {
-                        if (attribute.Header == attributeValue)
-                            testQueue.Enqueue(new TypeAndMethod(type, method.Name));
-                    }
-                }
-            }
-
-            return testQueue;
-        }
-
+       
         public Queue<TypeAndMethod> GetTestQueue()
         {
             Queue<TypeAndMethod> testQueue = new Queue<TypeAndMethod>();

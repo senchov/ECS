@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using SimpleJSON;
+using Object = UnityEngine.Object;
 
 
 namespace RuntimeTests
@@ -15,6 +17,7 @@ namespace RuntimeTests
         private TestProvider TestProvider;
         private Vector2 ScrollPos;
         private string TestAttributeValue = String.Empty;
+        private Object Folder;
 
         [MenuItem("Window/RuntimeTest")]
         public static void ShowWindwow()
@@ -27,16 +30,14 @@ namespace RuntimeTests
             SubscribeToPlaymodeStateChange();
             TestProvider = new TestProvider();
             FillTestQueue();
-            FillToggleByTest();
         }
 
         private void FillTestQueue()
         {
-            if (TestAttributeValue == String.Empty)
-                ExistingTests = TestProvider.GetAllExistTestQueue();
-            else
+            if (Folder != null)
             {
-                ExistingTests = TestProvider.GetTestWithAttributeValue(TestAttributeValue);
+                ExistingTests = TestProvider.GetTests(Folder);
+                FillToggleByTest();
             }
         }
 
@@ -51,7 +52,7 @@ namespace RuntimeTests
             ToggleByTest = new Dictionary<TypeAndMethod, bool>();
             foreach (TypeAndMethod typeAndMethod in ExistingTests)
             {
-                ToggleByTest.Add(typeAndMethod, false);
+                ToggleByTest.Add(typeAndMethod, true);
             }
         }
 
@@ -72,35 +73,26 @@ namespace RuntimeTests
 
         private void OnGUI()
         {
-            StartButtonRender();
+            PathForTestRender();
             HeaderLabelRender();
             TestTogglesRender();
+            StartButtonRender();
             SelectButtonsRender();
-            AttributeTextRender();
         }
-        
-        private void StartButtonRender()
+
+        private void PathForTestRender()
         {
-            if (GUILayout.Button("Start tests"))
+            GUILayout.Label("drag and drop folder with tests", EditorStyles.helpBox);
+            Folder = EditorGUILayout.ObjectField(Folder, typeof(Object));
+            if (GUILayout.Button("update"))
             {
-                TestProvider.SaveToFile(ToggleByTest);
-                PlayStopRuntime();
+                FillTestQueue();
             }
         }
 
         private void HeaderLabelRender()
         {
             GUILayout.Label("Tests", EditorStyles.boldLabel);
-        }
-
-        private void AttributeTextRender()
-        {
-            TestAttributeValue = EditorGUILayout.TextField(TestAttributeValue);
-            if (GUILayout.Button("Update"))
-            {
-                FillTestQueue();
-                FillToggleByTest();
-            }
         }
 
         private void TestTogglesRender()
@@ -117,6 +109,15 @@ namespace RuntimeTests
             EditorGUILayout.EndVertical();
         }
 
+        private void StartButtonRender()
+        {
+            if (GUILayout.Button("Start tests"))
+            {
+                TestProvider.SaveToFile(ToggleByTest);
+                PlayStopRuntime();
+            }
+        }
+
         private void SelectButtonsRender()
         {
             GUILayout.BeginHorizontal();
@@ -129,6 +130,7 @@ namespace RuntimeTests
             {
                 SelectAllTest(false);
             }
+
             GUILayout.EndHorizontal();
         }
 
