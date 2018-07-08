@@ -7,9 +7,9 @@ public class WanderSecondComponent : MonoBehaviour
     [SerializeField] private float WanderRadius = 2.0f;
     [SerializeField] private float WanderDistance = 2.0f;
     [SerializeField] private float Jitter = 10.0f;
-    [SerializeField] private float MaxVel = 10.0f;
-    [SerializeField] private float MinVelocity = 0.01f;
+    [SerializeField] private float MaxVel = 10.0f;   
     [SerializeField] private float WanderSpeed = 10.0f;
+    [SerializeField] private int WanderFrequncy = 10;
 
     private WanderBehavior WanderBehavior;
     private Vector3 Steer = Vector3.zero;
@@ -24,12 +24,11 @@ public class WanderSecondComponent : MonoBehaviour
 
     private void Update()
     {
-        Steer = WanderBehavior.Wander(ref Velocity) * WanderSpeed;
+        if (Time.frameCount % WanderFrequncy == 0)
+            Steer = WanderBehavior.Wander(ref Velocity) * WanderSpeed;
 
         Velocity = Steer * Time.deltaTime;
-        Velocity = Vector3.ClampMagnitude(Velocity, MaxVel);
-        if (Velocity.sqrMagnitude < MinVelocity)
-            Velocity = Vector3.zero;
+        Velocity = Vector3.ClampMagnitude(Velocity, MaxVel);      
 
         Move();
         Rotate();
