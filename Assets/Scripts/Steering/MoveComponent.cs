@@ -11,7 +11,7 @@ public class MoveComponent : MonoBehaviour
     public float LineLenght = 10;
 
     private SteeringBehavior SteeringBehavior;
-    private Vector3 Velocity = Vector3.zero;
+    public Vector3 Velocity = Vector3.zero;
     private Vector3 Target = Vector3.zero;
     private Vector3 Steer = Vector3.zero;
 
@@ -45,12 +45,11 @@ public class MoveComponent : MonoBehaviour
 
         Truncate(ref Velocity, MaxVel);
 
-        if (Velocity.sqrMagnitude < MinVelocity)
-            Velocity = Vector3.zero;
-
-        transform.position += Velocity;
-        
-        Rotate();
+        if (Velocity.sqrMagnitude > MinVelocity)
+        {
+            transform.position += Velocity;
+            Rotate();
+        }
     }
 
     private void Rotate()

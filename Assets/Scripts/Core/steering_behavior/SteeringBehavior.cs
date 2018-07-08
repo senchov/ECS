@@ -56,7 +56,21 @@ public class SteeringBehavior
         }
         
         return Arrive(sourcePos, WanderTarget, sourceVel);
-    }   
+    }
+
+    public Vector3 Pursuit(Vector2 sourcePos, Vector2 target, Vector2 targetVelocity)
+    {
+        float assumeVelocityMult = Vector2.Distance(sourcePos, target) / MaxVelocity;
+        Vector2 futureTargetPosition = target + targetVelocity * assumeVelocityMult;
+        return Seek(sourcePos, futureTargetPosition);
+    }
+
+    public Vector3 Evade (Vector2 sourcePos,Vector2 sourceVel, Vector2 target, Vector2 targetVelocity)
+    {
+        float assumeVelocityMult = Vector2.Distance(sourcePos, target) / MaxVelocity;
+        Vector2 futureTargetPosition = target + targetVelocity * assumeVelocityMult;
+        return Flee(sourcePos, futureTargetPosition, sourceVel);
+    }
 }
 
 public struct SteerParametrs
