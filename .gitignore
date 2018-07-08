@@ -22,3 +22,5 @@ Assets/Resources/tk2d/*
 /Assets/Editor/StoreKit*
 .idea/
 Assets/Plugins/Editor/JetBrains/
+.vs
+*.user
