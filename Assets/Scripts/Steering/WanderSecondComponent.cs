@@ -12,8 +12,8 @@ public class WanderSecondComponent : MonoBehaviour
     [SerializeField] private int WanderFrequncy = 10;
 
     private WanderBehavior WanderBehavior;
-    private Vector3 Steer = Vector3.zero;
-    private Vector3 Velocity = Vector3.zero;
+    private Vector2 Steer = Vector3.zero;
+    public Vector3 Velocity = Vector3.zero;
     private float RotateSmooth;
     private float MaxSmoothValue = 1.0f;
 
@@ -26,9 +26,9 @@ public class WanderSecondComponent : MonoBehaviour
     {
         if (Time.frameCount % WanderFrequncy == 0)
             Steer = WanderBehavior.Wander(ref Velocity) * WanderSpeed;
-
+       // Debug.LogError("steer ws->" + Steer);
         Velocity = Steer * Time.deltaTime;
-        Velocity = Vector3.ClampMagnitude(Velocity, MaxVel);      
+        Velocity = Vector3.ClampMagnitude(Velocity, MaxVel);        
 
         Move();
         Rotate();

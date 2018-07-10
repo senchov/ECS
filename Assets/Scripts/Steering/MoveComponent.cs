@@ -7,6 +7,7 @@ public class MoveComponent : MonoBehaviour
     [SerializeField] private float MaxSpeed;
     [SerializeField] private float MaxVel = 0.2f;  
     [SerializeField] private float MinVelocity = 0.05f;
+    [SerializeField] private float RotateSmooth = 5.0f;
 
     public float LineLenght = 10;
 
@@ -28,10 +29,10 @@ public class MoveComponent : MonoBehaviour
         SteeringBehavior.MaxSpeed = MaxSpeed;
         SteeringBehavior.MaxVelocity = MaxVel;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.LogError("mousePos" + mousePos);
+           // Debug.LogError("mousePos" + mousePos);
             mousePos.z = 0;
             Target = mousePos;
         }
@@ -55,7 +56,8 @@ public class MoveComponent : MonoBehaviour
     private void Rotate()
     {
         float angle = Mathf.Atan2(-Velocity.x, Velocity.y) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, angle);
+        Quaternion desireRotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, angle);
+        transform.rotation = Quaternion.Slerp(transform.rotation,desireRotation,Time.deltaTime * RotateSmooth);
     }
 
     private void OnDrawGizmos()
