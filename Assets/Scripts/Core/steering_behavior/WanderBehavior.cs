@@ -27,8 +27,7 @@ public class WanderBehavior
         Vector2 displacement = new Vector2(0,-1);
         displacement *= Radius;
 
-        SetAngle(ref displacement,WanderAngle);
-
+        SetAngle(ref displacement,WanderAngle);       
         WanderAngle += Random.Range(-1.0f, 1.0f) * Jitter;
 
         return circleCentr + displacement;

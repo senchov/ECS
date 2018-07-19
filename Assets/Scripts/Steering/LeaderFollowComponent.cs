@@ -19,11 +19,12 @@ public class LeaderFollowComponent : MonoBehaviour
     [SerializeField] private float Behind = 2.0f;
     [SerializeField] private Weights Weight;
     [SerializeField] private float MinSaparation = 0.01f;
+    [SerializeField] private Transform[] SquadPositionsTransforms;
 
     List<Transform> Followers = new List<Transform>();
     List<Vector2> Velocities = new List<Vector2>();
+    List<Vector2> SquadPositions = new List<Vector2>();
 
-    Dictionary<Transform, Vector2> VelocityByEntity = new Dictionary<Transform, Vector2>();
     private List<Color> DebugColors = new List<Color>();
 
     SteeringBehavior Steering;
@@ -34,6 +35,8 @@ public class LeaderFollowComponent : MonoBehaviour
     {
         Steering = new SteeringBehavior(MaxSpeed, MaxVel);
         FollowBehavior = new LeaderFollowBehavior(Steering, Behind);
+
+        FillSquadPositions();
     }
 
     private void Update()
@@ -47,11 +50,29 @@ public class LeaderFollowComponent : MonoBehaviour
             CreateEntity();
         }
 
-
         ApplyFollow();
-
         ApplySeparation();
         MoveFollowers();
+    }
+
+    private void FillSquadPositions()
+    {
+        foreach (Transform squadTransform in SquadPositionsTransforms)
+        {
+            SquadPositions.Add(squadTransform.position);
+        }
+    }
+
+    private void CreateEntity()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        GameObject entity = Instantiate(FollowerPrefab, mousePos, Quaternion.identity);
+        entity.SetActive(true);
+
+        Followers.Add(entity.transform);
+        Velocities.Add(Vector2.zero);
+        ChangeColor(entity);
     }
 
     private void ApplySeparation()
@@ -86,10 +107,10 @@ public class LeaderFollowComponent : MonoBehaviour
             Vector2 sourcePos = Followers[i].position;
             Vector2 leaderPos = Leader.transform.position;
             Vector2 leaderVel = Leader.Velocity;
-            Debug.LogError("leader->" + leaderPos + " vel->" + leaderVel);
-            Vector2 followForce = FollowBehavior.Follow(sourcePos, leaderPos, leaderVel);
-            Velocities[i] = followForce * Weight.Follow;
-            Debug.LogError("filledVel->" + Velocities[i]);
+          //  Debug.LogError("leader->" + leaderPos + " vel->" + leaderVel);
+            Vector2 followForce = FollowBehavior.Follow(sourcePos, Velocities[i], leaderPos, leaderVel);
+            Velocities[i] += followForce * Weight.Follow;
+          //  Debug.LogError("filledVel->" + Velocities[i]);
         }
     }
 
@@ -116,18 +137,6 @@ public class LeaderFollowComponent : MonoBehaviour
         float angle = Mathf.Atan2(-velocity.x, velocity.y) * Mathf.Rad2Deg;
         Quaternion desireRotation = Quaternion.Euler(target.eulerAngles.x, target.eulerAngles.y, angle);
         target.rotation = Quaternion.Lerp(target.rotation, desireRotation, RotateSmooth * Time.deltaTime);
-    }
-
-    private void CreateEntity()
-    {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        GameObject entity = Instantiate(FollowerPrefab, mousePos, Quaternion.identity);
-        entity.SetActive(true);
-
-        Followers.Add(entity.transform);
-        Velocities.Add(Vector2.zero);
-        ChangeColor(entity);
     }
 
     private void ChangeColor(GameObject boid)

@@ -24,13 +24,13 @@ public class LeaderFollowBehavior
         set { LeaderBehindDistance = value; }
     }
 
-    public Vector2 Follow(Vector2 sourcePos, Vector2 leaderPos, Vector2 leaderVelocity)
+    public Vector2 Follow(Vector2 sourcePos,Vector2 sourceVel, Vector2 leaderPos, Vector2 leaderVelocity)
     {
         Vector2 targetVelocity = leaderVelocity * DirectionFromLeader;
         targetVelocity = targetVelocity.normalized;
         targetVelocity *= LeaderBehindDistance;
         Vector2 behind = leaderPos + targetVelocity;
         
-        return Steering.Arrive(sourcePos, behind, Vector2.zero);
+        return Steering.Arrive(sourcePos, behind, sourceVel);
     }
 }
