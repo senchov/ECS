@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VelocityData : MonoBehaviour
+public class PrephabHub : MonoBehaviour
 {
-    public Vector3 Velocity;   
+    public GameObject Bullet;
 }
