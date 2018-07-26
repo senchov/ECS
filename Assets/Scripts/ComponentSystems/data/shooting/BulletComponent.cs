@@ -7,7 +7,7 @@ using System;
 [Serializable]
 public struct Bullet : IComponentData
 {
-    public float TimeToLive;
+    public float RemoveAt;
 }
 
 public class BulletComponent : ComponentDataWrapper<Bullet>

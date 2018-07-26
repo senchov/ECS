@@ -19,24 +19,31 @@ public class BulletSpawnSystem : ComponentSystem
     private struct PlayerGroup
     {
         public Player Player;
-        public Transform Transform;      
-        
-    }   
+        public Transform Transform;
+    }
+
+    private struct BulletGroup
+    {
+        public Bullet BulletTag;
+    }
 
     protected override void OnUpdate()
-    {
-     //   NativeArray<Entity> entities = new NativeArray<Entity>();
+    {       
         for (int i = 0; i < Data.Length; i++)
         {
             if (Data.Inputs[i].IsFire)
             {
                 foreach (PlayerGroup player in GetEntities<PlayerGroup>())
-                {
-                    GameObject bullet = Object.Instantiate(Bootstrap.PrefabHub.Bullet);                   
-                    bullet.transform.rotation = player.Transform.rotation;
-                    bullet.transform.position = player.Transform.position; 
-                    
-                }  
+                {                   
+                    Entity entity = EntityManager.Instantiate(Bootstrap.PrefabHub.Bullet);
+
+                    float3 pos = new float3(player.Transform.position.x, player.Transform.position.y, 0);
+                    EntityManager.SetComponentData(entity, new Position { Value = pos });
+
+                    Bullet bullet = new Bullet();
+                    bullet.RemoveAt = Time.time + Bootstrap.DestroySettings.BulletExistTime;
+                    EntityManager.SetComponentData(entity,bullet);
+                }
             }
         }
     }
