@@ -30,7 +30,8 @@ public class BulletVelocitySystem : JobComponentSystem
             data.Velocity = math.normalize(target - position);
             data.MaxSpeed = MaxSpeed;
 
-            Velocities[index] = data;
+           // Velocities[index] = data;
+            EntityBuffer.SetComponent(EntityArray[index], data);
         }
     }
 
