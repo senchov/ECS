@@ -7,7 +7,7 @@ public struct Steering
 {
     public float MaxSpeed;
 
-    public float2 Arrive(float2 sourcePos, float2 sourceVel, float2 targetPos, float slowingRadius = 1)
+    public float2 Arrive(float2 sourcePos, float2 targetPos, float slowingRadius = 1)
     {
         float2 desiredVelocity = targetPos - sourcePos;
         float distance = math.length(desiredVelocity);
