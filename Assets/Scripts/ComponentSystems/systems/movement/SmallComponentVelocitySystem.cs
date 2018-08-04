@@ -63,13 +63,6 @@ public class SmallComponentVelocitySystem : JobComponentSystem
         public ComponentArray<InputData> Inputs;
     }
 
-    private struct BigControllerGroup
-    {
-        public readonly int Length;
-        [ReadOnly] public ComponentDataArray<BigController> BigControllers;
-        [ReadOnly] public ComponentDataArray<Position> Positions;
-    }
-
     private struct SmallControllerGroup
     {
         public readonly int Length;
@@ -78,8 +71,7 @@ public class SmallComponentVelocitySystem : JobComponentSystem
         public ComponentDataArray<Position> Positions;
     }
 
-    [Inject] Group InputDataInjected;
-    [Inject] BigControllerGroup BigController;
+    [Inject] Group InputDataInjected;   
     [Inject] SmallControllerGroup SmallController;
 
     private bool IsMouseWasInCircleAndPressed;

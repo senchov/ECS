@@ -21,7 +21,6 @@ public class PlayerRotateSystem : ComponentSystem
             Transform playerTransform = entity.PlayerTransform;
             Quaternion desireRotation = Quaternion.Euler(playerTransform.eulerAngles.x, playerTransform.eulerAngles.y, angle);
             playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, desireRotation, deltaTime * entity.RotateSmooth.Smooth);
-
         }
     }
 }

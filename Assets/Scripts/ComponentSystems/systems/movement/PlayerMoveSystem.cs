@@ -16,8 +16,8 @@ public class PlayerMoveSystem : ComponentSystem
 
         foreach (Group entity in GetEntities<Group>())
         {
-            Vector3 velocity = new Vector3(entity.Input.Horizontal, entity.Input.Vertical, 0);
-            entity.PlayerTransform.position += velocity * deltaTime * entity.SpeedDataComponent.Speed;
+            //Vector3 velocity = new Vector3(entity.Input.Horizontal, entity.Input.Vertical, 0);
+            //entity.PlayerTransform.position += velocity * deltaTime * entity.SpeedDataComponent.Speed;
         }
     }
 }
