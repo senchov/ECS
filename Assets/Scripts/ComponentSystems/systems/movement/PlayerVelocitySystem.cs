@@ -1,11 +1,9 @@
 ﻿using Unity.Entities;
 using Unity.Collections;
-using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Jobs;
 using UnityEngine;
 
-//[UpdateBefore(typeof(SmallComponentVelocitySystem))]
 public class PlayerVelocitySystem : JobComponentSystem
 {
     private struct PlayerVelocitySystemJob : IJobParallelFor
@@ -29,7 +27,6 @@ public class PlayerVelocitySystem : JobComponentSystem
     private struct PlayerGroup
     {
         public readonly int Length;
-        //  public EntityArray Entities;
         public ComponentDataArray<PlayerData> PlayerTag;
         public ComponentDataArray<VelocityData> Velocity;
     }
