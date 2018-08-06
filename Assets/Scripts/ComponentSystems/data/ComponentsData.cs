@@ -9,5 +9,3 @@ public struct TargetPoint : IComponentData
 public struct VelocitySetted : IComponentData
 {
 }
-
-   

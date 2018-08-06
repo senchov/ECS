@@ -25,4 +25,9 @@ public struct Steering
 
         return desiredVelocity;
     }
+
+    public float2 Seek(float2 sourcePos, float2 targetPos)
+    {
+        return targetPos - sourcePos;
+    }
 }
