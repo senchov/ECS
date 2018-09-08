@@ -13,17 +13,17 @@ public class MoveSystem : JobComponentSystem
     private struct MoveSystemJob : IJobProcessComponentData<VelocityData, Position>
     {
         public float DeltaTime;
-        
+
         public void Execute([ReadOnly]ref VelocityData velocity, ref Position position)
         {
             position.Value += new float3(velocity.Velocity.x, velocity.Velocity.y, 0) * DeltaTime * velocity.MaxSpeed;
         }
-    }   
+    }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var job = new MoveSystemJob();
-        job.DeltaTime = Time.deltaTime;       
-        return job.Schedule(this,64,inputDeps);
+        job.DeltaTime = Time.deltaTime;
+        return job.Schedule(this, inputDeps);
     }
 }

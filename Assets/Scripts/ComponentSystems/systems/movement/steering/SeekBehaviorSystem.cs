@@ -18,6 +18,7 @@ public class SeekBehaviorSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var job = new SeekBehaviorSystemJob();
-        return job.Schedule(this, 64, inputDeps);
+     //  job.Schedule ()
+        return job.Schedule(this, inputDeps);
     }
 }

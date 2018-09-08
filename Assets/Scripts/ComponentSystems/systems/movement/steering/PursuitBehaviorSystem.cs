@@ -25,6 +25,6 @@ public class PursuitBehaviorSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var job = new PursuitBehaviorSystemJob();
-        return job.Schedule(this, 64, inputDeps);
+        return job.Schedule(this, inputDeps);
     }
 }

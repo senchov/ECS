@@ -19,5 +19,6 @@ public class Lol : ComponentSystem
         {
            item.TargetTransform.rotation *= Quaternion.AngleAxis(item.TargetRotator.Speed*deltaTime,Vector3.up);
         }
+        
     }
 }

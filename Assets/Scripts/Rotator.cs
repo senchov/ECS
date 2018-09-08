@@ -6,4 +6,5 @@ using UnityEngine;
 public class Rotator : MonoBehaviour
 {
     [SerializeField] public float Speed;
+    [SerializeField] public Queue<Vector3> Path;
 }
