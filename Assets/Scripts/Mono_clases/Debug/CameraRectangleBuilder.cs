@@ -57,7 +57,7 @@ public class CameraRectangleBuilder : MonoBehaviour
 
         leftPoint = GetMainCamera.ScreenToWorldPoint(new Vector2(halfWidth - halfWidth * leftOffset, halfHeight));
         rightPoint = GetMainCamera.ScreenToWorldPoint(new Vector2(halfWidth + halfWidth * rightOffset, halfHeight));
-        downPoint = GetMainCamera.ScreenToWorldPoint(new Vector2(halfWidth, halfHeight + halfHeight * downOffset));
-        upPoint = GetMainCamera.ScreenToWorldPoint(new Vector2(halfWidth, halfHeight - halfHeight * highOffset));
+        upPoint = GetMainCamera.ScreenToWorldPoint(new Vector2(halfWidth, halfHeight + halfHeight * highOffset));
+        downPoint = GetMainCamera.ScreenToWorldPoint(new Vector2(halfWidth, halfHeight - halfHeight * downOffset));
     }
 }

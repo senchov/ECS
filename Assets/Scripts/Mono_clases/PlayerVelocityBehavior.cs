@@ -7,15 +7,12 @@ using Unity.Mathematics;
 public class PlayerVelocityBehavior : MonoBehaviour
 {
     [SerializeField] private GameObjectEntity PlayerEntity;
-    [SerializeField] private float MaxSpeed = 1.0f;
     [SerializeField] private EntityManagerProviderSO ManagerProvider;    
 
     public void SetPlayerVelocity(float2 vel)
     {        
-        VelocityData velData = new VelocityData();
-        velData.Velocity = vel;
-        velData.MaxSpeed = MaxSpeed;
-
+        VelocityData velData = ManagerProvider.GetEntityManager.GetComponentData<VelocityData>(PlayerEntity.Entity);
+        velData.Velocity = vel;   
         ManagerProvider.GetEntityManager.SetComponentData(PlayerEntity.Entity, velData);
     }
 

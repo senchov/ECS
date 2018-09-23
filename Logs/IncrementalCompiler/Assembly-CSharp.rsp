@@ -379,6 +379,8 @@
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Graphs/NavGraphCreator.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Graphs/NavGraphNode.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Mono_clases/Debug/CameraRectangleBuilder.cs
+-i:C:/files/UnityProjects/ecs/Assets/Scripts/Mono_clases/Debug/GameObjectEnabler.cs
+-i:C:/files/UnityProjects/ecs/Assets/Scripts/Mono_clases/Debug/RectangleUISetter.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Mono_clases/EntityRotationBehavior.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Mono_clases/PlayerVelocityBehavior.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Mono_clases/UnityEventEmitters/Float2EventEmitter.cs
