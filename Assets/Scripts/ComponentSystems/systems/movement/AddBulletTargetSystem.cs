@@ -18,7 +18,7 @@ public class AddBulletTargetSystem : JobComponentSystem
         {
             TargetPoint targetPoint = new TargetPoint();
             targetPoint.Value = Target;
-            EntityBuffer.AddComponent(EntityArray[index], targetPoint);
+            EntityBuffer.AddComponent(index,EntityArray[index], targetPoint);
         }
     }
 
@@ -44,7 +44,7 @@ public class AddBulletTargetSystem : JobComponentSystem
     {
         AddBulletTargetSystemJob job = new AddBulletTargetSystemJob();       
         job.EntityArray = BulletData.Entities;
-        job.EntityBuffer = Barrier.CreateCommandBuffer();
+        job.EntityBuffer = Barrier.CreateCommandBuffer().ToConcurrent();
         job.Target = InpuData.Inputs[0].MousePos;
         return job.Schedule(BulletData.Length,64,inputDeps);
     }

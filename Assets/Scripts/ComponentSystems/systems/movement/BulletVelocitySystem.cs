@@ -18,7 +18,7 @@ public class BulletVelocitySystem : JobComponentSystem
         public void Execute(int index)
         {
             SetVelocity(index);
-            EntityBuffer.AddComponent(EntityArray[index], new VelocitySetted());
+            EntityBuffer.AddComponent(index, EntityArray[index], new VelocitySetted());
         }
 
         private void SetVelocity(int index)
@@ -30,8 +30,8 @@ public class BulletVelocitySystem : JobComponentSystem
             data.Velocity = math.normalize(target - position);
             data.MaxSpeed = MaxSpeed;
 
-           // Velocities[index] = data;
-            EntityBuffer.SetComponent(EntityArray[index], data);
+            // Velocities[index] = data;
+            EntityBuffer.SetComponent(index, EntityArray[index], data);
         }
     }
 
@@ -57,7 +57,7 @@ public class BulletVelocitySystem : JobComponentSystem
         job.Positions = BulletsData.Positions;
         job.Targets = BulletsData.Targets;
         job.EntityArray = BulletsData.Entities;
-        job.EntityBuffer = Barrier.CreateCommandBuffer();
+        job.EntityBuffer = Barrier.CreateCommandBuffer().ToConcurrent();
 
         return job.Schedule(BulletsData.Length, 64, inputDeps);
     }

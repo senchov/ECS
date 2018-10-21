@@ -17,7 +17,7 @@ public class QuaternionEventEmitter : MonoBehaviour
     [ContextMenu("EuelerToQuaternin")]
     public void EuelerToQuaternin()
     {
-        quaternion q = quaternion.euler(Euler);
+        quaternion q = quaternion.Euler(Euler);
         Debug.LogError(q.value);
     }
 

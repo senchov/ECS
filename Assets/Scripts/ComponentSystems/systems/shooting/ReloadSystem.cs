@@ -15,7 +15,7 @@ public class ReloadSystem : JobComponentSystem
         public void Execute(int index)
         {
             if (CurrentTime > Firings[index].ReloadAt)
-                EntityBuffer.RemoveComponent<FireData>(EntityArray[index]);
+                EntityBuffer.RemoveComponent<FireData>(index, EntityArray[index]);
         }
     }
 
@@ -34,7 +34,7 @@ public class ReloadSystem : JobComponentSystem
         return new ReloadJob()
         {
             EntityArray = ShootData.Entities,
-            EntityBuffer = Barrier.CreateCommandBuffer(),
+            EntityBuffer = Barrier.CreateCommandBuffer().ToConcurrent(),
             CurrentTime = Time.time,
             Firings = ShootData.Firings
         }.Schedule(ShootData.Length, 64, inputDeps);

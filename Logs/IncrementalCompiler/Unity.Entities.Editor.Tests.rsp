@@ -95,7 +95,7 @@
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.analytics@2.0.16/Editor/UnityEditor.Analytics.dll
--r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.collections@0.0.9-preview.4/System.Runtime.CompilerServices.Unsafe.dll
+-r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.collections@0.0.9-preview.9/System.Runtime.CompilerServices.Unsafe.dll
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.properties@0.2.11-preview/Editor/Serialization/External/Cecil/Mono.Cecil.dll
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.properties@0.2.11-preview/Editor/Serialization/External/Cecil/Mono.Cecil.Mdb.dll
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.properties@0.2.11-preview/Editor/Serialization/External/Cecil/Mono.Cecil.Pdb.dll
@@ -317,7 +317,9 @@
 -d:UNITY_POST_PROCESSING_STACK_V2
 -d:UNITY_HAS_GOOGLEVR
 -d:UNITY_HAS_TANGO
--i:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.entities@0.0.12-preview.12/Unity.Entities.Editor.Tests/ComponentTypeFilterUITests.cs
--i:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.entities@0.0.12-preview.12/Unity.Entities.Editor.Tests/EntityDebuggerTests.cs
--i:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.entities@0.0.12-preview.12/Unity.Entities.Editor.Tests/ListViewTests.cs
+-i:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.entities@0.0.12-preview.19/Unity.Entities.Editor.Tests/ComponentGroupGUITests.cs
+-i:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.entities@0.0.12-preview.19/Unity.Entities.Editor.Tests/ComponentTypeFilterUITests.cs
+-i:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.entities@0.0.12-preview.19/Unity.Entities.Editor.Tests/EntityArrayListAdapterTests.cs
+-i:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.entities@0.0.12-preview.19/Unity.Entities.Editor.Tests/EntityDebuggerTests.cs
+-i:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.entities@0.0.12-preview.19/Unity.Entities.Editor.Tests/ListViewTests.cs
 -v:0

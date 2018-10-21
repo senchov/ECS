@@ -5,26 +5,6 @@
 -out:C:/files/UnityProjects/ecs/Temp/Assembly-CSharp.dll
 -nostdlib
 -unsafe
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Entities.Properties.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Properties.Codegen.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Jobs.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Jobs.Editor.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Entities.Editor.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Properties.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Collections.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Burst.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Rendering.Hybrid.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Properties.Editor.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Entities.Hybrid.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Mathematics.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Entities.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Transforms.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Burst.Editor.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.TextMeshPro.dll
--r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Transforms.Hybrid.dll
 -r:"C:\Program Files\Unity\Hub\Editor\2018.2.7f1\Editor\Data\Managed/UnityEngine/UnityEngine.dll"
 -r:"C:\Program Files\Unity\Hub\Editor\2018.2.7f1\Editor\Data\Managed/UnityEngine/UnityEngine.AIModule.dll"
 -r:"C:\Program Files\Unity\Hub\Editor\2018.2.7f1\Editor\Data\Managed/UnityEngine/UnityEngine.ARModule.dll"
@@ -86,6 +66,28 @@
 -r:"C:\Program Files\Unity\Hub\Editor\2018.2.7f1\Editor\Data\Managed/UnityEngine/UnityEngine.XRModule.dll"
 -r:"C:\Program Files\Unity\Hub\Editor\2018.2.7f1\Editor\Data\Managed/UnityEditor.dll"
 -r:"C:\Program Files\Unity\Hub\Editor\2018.2.7f1\Editor\Data\Managed/Unity.Locator.dll"
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Entities.Properties.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Properties.Codegen.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Jobs.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Jobs.Editor.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Entities.Editor.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Properties.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Collections.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Burst.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Rendering.Hybrid.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Properties.Editor.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Entities.Hybrid.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Mathematics.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Entities.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Transforms.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Burst.Editor.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.TextMeshPro.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Transforms.Hybrid.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Transforms.Editor.dll
+-r:C:/files/UnityProjects/ecs/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll
 -r:"C:/Program Files/Unity/Hub/Editor/2018.2.7f1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2018.2.7f1/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2018.2.7f1/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll"
@@ -95,7 +97,7 @@
 -r:"C:/Program Files/Unity/Hub/Editor/2018.2.7f1/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2018.2.7f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll"
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll
--r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.collections@0.0.9-preview.4/System.Runtime.CompilerServices.Unsafe.dll
+-r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.collections@0.0.9-preview.9/System.Runtime.CompilerServices.Unsafe.dll
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.purchasing@2.0.1/UnityEngine.Purchasing.dll
 -r:C:/Users/user/AppData/Local/Unity/cache/packages/staging-packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll
 -r:"C:\Program Files\Unity\Hub\Editor\2018.2.7f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll"
@@ -366,6 +368,7 @@
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Core/steering_behavior/Steering.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Core/steering_behavior/SteeringBehavior.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Core/steering_behavior/WanderBehavior.cs
+-i:C:/files/UnityProjects/ecs/Assets/Scripts/Fuzzy/interfaces/IFuzzySet.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Graphs/algorithms/AStar.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Graphs/ExtraInfoEnum.cs
 -i:C:/files/UnityProjects/ecs/Assets/Scripts/Graphs/gizmos/DistanceMeasureComponent.cs

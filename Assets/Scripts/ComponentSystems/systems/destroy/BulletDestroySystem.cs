@@ -15,7 +15,7 @@ public class BulletDestroySystem : JobComponentSystem
         public void Execute(int index)
         {
             if (CurrentTime > Bullets[index].RemoveAt)
-                EntityBuffer.DestroyEntity(EntityArray [index]);
+                EntityBuffer.DestroyEntity(index,EntityArray [index]);            
         }
     }
 
@@ -33,7 +33,7 @@ public class BulletDestroySystem : JobComponentSystem
     {
         BulletDestroyJob job = new BulletDestroyJob();
         job.EntityArray = BulletsData.Entities;
-        job.EntityBuffer = Barrier.CreateCommandBuffer();
+        job.EntityBuffer = Barrier.CreateCommandBuffer().ToConcurrent();
         job.Bullets = BulletsData.Bullets;
         job.CurrentTime = Time.time;
         return job.Schedule(BulletsData.Length,64,inputDeps);

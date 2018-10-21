@@ -31,8 +31,8 @@ public class CameraMoveInRectSystem : JobComponentSystem
 
             if (InRect)
                 data.Velocity = PlayerVel.Velocity;
-
-            EntityBuffer.SetComponent(Entity, data);
+            
+           // EntityBuffer.SetComponent(Entity, data);          
         }
 
         private bool InRect
@@ -73,7 +73,7 @@ public class CameraMoveInRectSystem : JobComponentSystem
         inputDeps.Complete();
 
         CameraInRectJob cameraInRectJob = new CameraInRectJob();
-        cameraInRectJob.EntityBuffer = Barrier.CreateCommandBuffer();
+        cameraInRectJob.EntityBuffer = Barrier.CreateCommandBuffer().ToConcurrent();
         cameraInRectJob.PlayerPos = Player.Pos[0].Value;
         cameraInRectJob.Entity = GameCamera.Entities[0];
         cameraInRectJob.CameraVel = GameCamera.Vel[0];

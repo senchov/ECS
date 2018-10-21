@@ -13,7 +13,7 @@ public class ShootingSystem : JobComponentSystem
 
         public void Execute(int index)
         {
-            EntityBuffer.AddComponent(EntityArray[index], new FireData()
+            EntityBuffer.AddComponent(index, EntityArray[index], new FireData()
             {
                 ReloadAt = ReloadTime
             });
@@ -27,7 +27,7 @@ public class ShootingSystem : JobComponentSystem
         public ComponentDataArray<Weapon> Weapons;
         public SubtractiveComponent<FireData> Firings;
     }
-    
+
     [Inject] Data ShootData;
     [Inject] PlayerShootingBarrier Barrier;
 
@@ -38,7 +38,7 @@ public class ShootingSystem : JobComponentSystem
             return new PlayerShootingJob()
             {
                 EntityArray = ShootData.Entities,
-                EntityBuffer = Barrier.CreateCommandBuffer(),
+                EntityBuffer = Barrier.CreateCommandBuffer().ToConcurrent(),
                 ReloadTime = Time.time + ShootData.Weapons[0].CooldownForReload
             }.Schedule(ShootData.Length, 64, inputDeps);
         }
