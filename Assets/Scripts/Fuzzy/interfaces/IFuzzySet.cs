@@ -2,7 +2,6 @@
 {
     public interface IFuzzySet
     {
-        float CalculateDom(int value);
-        int GetRepresentiveValue();
+        float CalculateDom(int value);        
     }
 }

@@ -22,11 +22,6 @@
             float wholeDiff = RightOffset - Peak;
             float valueDiff = value - Peak;
             return 1 - valueDiff / wholeDiff;
-        }
-
-        public int GetRepresentiveValue()
-        {
-            return Peak;
-        }
+        }       
     }
 }

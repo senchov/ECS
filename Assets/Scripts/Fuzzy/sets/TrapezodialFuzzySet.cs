@@ -38,11 +38,6 @@
             wholeDiff = RightOffset - RightPeak;
             valueDiff = value - RightPeak;
             return 1 - valueDiff / wholeDiff;
-        }
-
-        public int GetRepresentiveValue()
-        {
-            return (LeftPeak + RightPeak) / 2;
-        }
+        }      
     }
 }
