@@ -11,9 +11,14 @@ namespace Fuzzy
         [Category("Fuzzy")]
         public void StartTest()
         {
-            ShootDecisionRuleSet set = new ShootDecisionRuleSet();
-            float desirability = set.GetDesirability(200,8);
-            Debug.LogError(desirability);
+            ShootDecisionRuleSet nineRuleSet = new ShootDecisionRuleSet();
+            float nineRuleSetDesirability = nineRuleSet.GetDesirability(200,8);
+
+            ShootDecisionRulesetShrinked sixRuleSet = new ShootDecisionRulesetShrinked();
+            float sixRuleSetDesirability = sixRuleSet.GetDesirability(200, 8);
+
+            Debug.LogWarning("nine->" + nineRuleSetDesirability + " six->" + sixRuleSetDesirability);
+
         }
     }
 }
